@@ -1,5 +1,6 @@
 defmodule ExKeccak.Hash do
   import Bitwise
+  alias ExKeccak.Matrix
 
   @rc [
     0x0000000000000001, 0x0000000000008082,
@@ -30,18 +31,17 @@ defmodule ExKeccak.Hash do
   end
 
   def round(a, round_num) do
-    intialize_state()
+    a
     |> theta_step(round_num)
     |> rho_and_pi_step()
     |> iota_step()
   end
 
-  def theta_step(state) do
+  def theta_step(state, round_num) do
     rc = @rc |> Enum.at(round_num)
 
-    0..4
-    |> Enum.map(fn(num) ->
-    end)
+    f1 = fn(x, y) -> x ^^^ y end
+    c = state |> Matrix.reduce_rows(xor)
   end
 
   def rho_and_pi_step(state) do
@@ -50,11 +50,7 @@ defmodule ExKeccak.Hash do
   def iota_step(state) do
   end
 
-  def intialize_state do
-    0..24 |> Enum.map(fn(_) -> 0 end)
-  end
-
-  def rotate(x, y) do
-    (x <<< y) ^^^ (x >>> (64 - y))
+  def rotate(x, n) do
+    (x <<< n) ^^^ (x >>> (64 - n))
   end
 end
