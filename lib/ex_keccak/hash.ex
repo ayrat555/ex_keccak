@@ -41,16 +41,15 @@ defmodule ExKeccak.Hash do
     rc = @rc |> Enum.at(round_num)
 
     f1 = fn(x, y) -> x ^^^ y end
-    c = state |> Matrix.reduce_rows(xor)
+    c = state |> List.reduce_matrix_rows(f1)
+
+    f2 = fn(list, el
   end
 
   def rho_and_pi_step(state) do
   end
 
   def iota_step(state) do
-  end
 
-  def rotate(x, n) do
-    (x <<< n) ^^^ (x >>> (64 - n))
   end
 end
