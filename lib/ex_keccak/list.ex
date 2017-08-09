@@ -1,8 +1,8 @@
 defmodule ExKeccak.List do
   @type int_list :: [integer()]
-  @type t :: [int_list]
+  @type matrix :: [int_list]
 
-  @spec new_matrix(integer(), integer()) :: t
+  @spec new_matrix(integer(), integer()) :: matrix
   def new_matrix(rows, columns) do
     0..(rows - 1)
     |> Enum.map(fn(_) ->
@@ -13,7 +13,7 @@ defmodule ExKeccak.List do
     end)
   end
 
-  @spec reduce_matrix_rows(t, fun()) :: list()
+  @spec reduce_matrix_rows(matrix, fun()) :: list()
   def reduce_matrix_rows(matrix, operation) do
     matrix
     |> Enum.map(fn(row) ->
@@ -30,6 +30,19 @@ defmodule ExKeccak.List do
     |> Enum.with_index
     |> Enum.map(fn({el, index}) ->
       operation.(list, el, index)
+    end)
+  end
+
+  @spec map_matrix(matrix, fun()) :: matrix
+  def map_matrix(matrix, operation) do
+    matrix
+    |> Enum.with_index
+    |> Enum.map(fn({row, row_index}) ->
+      row
+      |> Enum.with_index
+      |> Enum.map(fn({el, col_index}) ->
+        operation.(el, row_index, col_index)
+      end)
     end)
   end
 end

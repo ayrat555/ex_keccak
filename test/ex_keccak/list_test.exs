@@ -45,4 +45,21 @@ defmodule ExKeccak.ListTest do
     assert result == expected_result
   end
 
+  test 'maps matrix' do
+    matrix = [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1]
+    ]
+    expected_matix = [
+      [1, 1, 1],
+      [0, 0, 0],
+      [-1, -1, -1]
+    ]
+    func = fn(el, row_index, _) -> el - row_index end
+
+    result = List.map_matrix(matrix, func)
+
+    assert result == expected_matix
+  end
 end

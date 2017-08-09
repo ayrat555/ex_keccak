@@ -1,6 +1,7 @@
 defmodule ExKeccak.Hash do
   import Bitwise
   alias ExKeccak.Matrix
+  import ExKeccak.Helper
 
   @rc [
     0x0000000000000001, 0x0000000000008082,
@@ -43,7 +44,23 @@ defmodule ExKeccak.Hash do
     f1 = fn(x, y) -> x ^^^ y end
     c = state |> List.reduce_matrix_rows(f1)
 
-    f2 = fn(list, el
+    f2 = fn(list, el, index) ->
+      prev_ind = (index - 1) |> modulo(5)
+      next_ind = (index + 1) |> modulo(5)
+
+      prev_el = list |> Enum.at(prev_ind)
+      next_el = list |> Enum.at(next_ind)
+
+      prev_el ^^^ rotate(next_el, 1)
+    end
+    d = state |> List.map(c, f2)
+
+    f3 = fn(el, row_ind, _) ->
+      d_el = d |> Enum.at(row_ind)
+
+      el ^^^ d_el
+    end
+    state |> List.map_matrix(f3)
   end
 
   def rho_and_pi_step(state) do
