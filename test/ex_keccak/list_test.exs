@@ -3,6 +3,15 @@ defmodule ExKeccak.ListTest do
   alias ExKeccak.List
   import ExKeccak.Helper
 
+  test 'creates blank list' do
+    num = 5
+    expected_result = [0, 0, 0, 0, 0]
+
+    result = num |> List.new_list
+
+    assert result == expected_result
+  end
+
   test 'creates blank matrix' do
     expected_matix = [
       [0, 0],

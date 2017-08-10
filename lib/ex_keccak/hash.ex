@@ -1,6 +1,6 @@
 defmodule ExKeccak.Hash do
   import Bitwise
-  alias ExKeccak.Matrix
+  alias ExKeccak.List
   import ExKeccak.Helper
 
   @rc [
@@ -45,15 +45,15 @@ defmodule ExKeccak.Hash do
     c = state |> List.reduce_matrix_rows(f1)
 
     f2 = fn(list, el, index) ->
-      prev_ind = (index - 1) |> modulo(5)
-      next_ind = (index + 1) |> modulo(5)
+      prev_ind = modulo(index - 1, 5)
+      next_ind = modulo(index + 1, 5)
 
       prev_el = list |> Enum.at(prev_ind)
       next_el = list |> Enum.at(next_ind)
 
       prev_el ^^^ rotate(next_el, 1)
     end
-    d = state |> List.map(c, f2)
+    d = c |> List.map(f2)
 
     f3 = fn(el, row_ind, _) ->
       d_el = d |> Enum.at(row_ind)

@@ -5,7 +5,8 @@ defmodule ExKeccak.Helper do
   def rotate(x, n) do
     n = n |> modulo(64)
 
-    (x <<< n) ^^^ (x >>> (64 - n)) |> rem(1 <<< 64)
+    res = (x <<< n) ^^^ (x >>> (64 - n))
+    res |> rem(1 <<< 64)
   end
 
   @spec modulo(integer(), integer()) :: integer()

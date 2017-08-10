@@ -6,10 +6,15 @@ defmodule ExKeccak.List do
   def new_matrix(rows, columns) do
     0..(rows - 1)
     |> Enum.map(fn(_) ->
-      0..(columns - 1)
-      |> Enum.map(fn(_) ->
-        0
-      end)
+      columns |> new_list()
+    end)
+  end
+
+  @spec new_list(integer()) :: int_list
+  def new_list(num) do
+    0..(num - 1)
+    |> Enum.map(fn(_) ->
+      0
     end)
   end
 
