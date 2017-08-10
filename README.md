@@ -1,4 +1,4 @@
-# ExKeccak
+# ExKeccak[![CircleCI](https://circleci.com/gh/ayrat555/ex_keccak.svg?style=svg)](https://circleci.com/gh/ayrat555/ex_keccak)
 
 **TODO: Add description**
 
